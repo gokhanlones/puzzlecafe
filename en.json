@@ -1,0 +1,52 @@
+{
+  "app_name": "PuzzleCafe",
+  "app_tagline": "Keep your mind sharp, start with a puzzle.",
+
+  "loading": "Loading...",
+
+  "login_welcome": "Welcome!",
+  "login_desc": "Sign in to track your scores and join the leaderboard.",
+  "login_google": "Continue with Google",
+  "login_note": "Your progress is saved automatically.",
+
+  "greeting": "Good day, {name}!",
+  "greeting_desc": "Pick a category and start solving.",
+
+  "stat_solved": "Solved",
+  "stat_score": "Total Score",
+  "stat_rank": "Rank",
+
+  "section_categories": "Categories",
+  "coming_soon": "Coming soon",
+  "play": "Play",
+
+  "cat_general_name": "General Knowledge",
+  "cat_general_desc": "Geography, history, science and more",
+  "cat_sports_name": "Sports",
+  "cat_sports_desc": "Coming soon",
+  "cat_cinema_name": "Cinema & Music",
+  "cat_cinema_desc": "Coming soon",
+
+  "signout": "Sign out",
+
+  "puzzle_across": "Across",
+  "puzzle_down": "Down",
+  "puzzle_close": "Close",
+  "puzzle_solved": "Congratulations! Puzzle solved!",
+  "puzzle_score": "Your score: {score}",
+  "puzzle_time": "Time: {time}",
+
+  "ad_watch": "Watch an ad to continue",
+  "ad_skip": "Skip ad ({sec}s)",
+  "ad_loading": "Loading ad...",
+
+  "leaderboard_title": "Leaderboard",
+  "leaderboard_empty": "No scores yet. Be the first!",
+  "leaderboard_rank": "Rank",
+  "leaderboard_player": "Player",
+  "leaderboard_score": "Score",
+
+  "error_login": "Sign in failed. Please try again.",
+  "error_load": "Could not load puzzle. Please try again.",
+  "error_network": "Please check your internet connection."
+}
