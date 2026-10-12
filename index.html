@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PuzzleCafe</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:       #F7F4EE;
+      --surface:  #FFFFFF;
+      --primary:  #2C5F8A;
+      --accent:   #E8A838;
+      --text:     #1C1C1C;
+      --muted:    #6B6457;
+      --border:   #D8CFBE;
+      --radius:   16px;
+      --shadow:   0 4px 24px rgba(44,95,138,.12);
+
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      box-sizing: border-box;
+    }
+
+    *, *::before, *::after { box-sizing: inherit; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LOGIN SCREEN ── */
+    #login-screen {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      gap: 0;
+    }
+
+    .cafe-logo {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 6px;
+    }
+
+    .header-logo {
+      width: 28px;
+      height: 28px;
+    }
+
+    .app-name {
+      font-family: 'Lora', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .app-tagline {
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 48px;
+      text-align: center;
+      max-width: 280px;
+      line-height: 1.5;
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 28px;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .login-card h2 {
+      font-family: 'Lora', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .login-card p {
+      font-size: 15px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    #google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    #google-btn:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(44,95,138,.12);
+    }
+
+    #google-btn:active { transform: scale(.98); }
+
+    #google-btn svg { flex-shrink: 0; }
+
+    .login-note {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── MAIN APP (hidden until login) ── */
+    #app-screen {
+      display: none;
+      min-height: 100%;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .app-header {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      background: var(--primary);
+      color: #fff;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .app-header .logo {
+      font-family: 'Lora', serif;
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.4);
+    }
+
+    #signout-btn {
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      font-family: 'Open Sans', sans-serif;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Welcome */
+    .welcome-section {
+      padding: 28px 20px 20px;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .welcome-section h1 {
+      font-family: 'Lora', serif;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .welcome-section p {
+      font-size: 15px;
+      opacity: .8;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-item {
+      flex: 1;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Lora', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Category cards */
+    .section-title {
+      font-family: 'Lora', serif;
+      font-size: 20px;
+      font-weight: 600;
+      padding: 20px 20px 12px;
+    }
+
+    .categories {
+      padding: 0 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .category-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .category-card:active { transform: scale(.98); }
+
+    .category-card:hover { box-shadow: var(--shadow); }
+
+    .cat-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+
+    .cat-info { flex: 1; }
+
+    .cat-name {
+      font-family: 'Lora', serif;
+      font-size: 19px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .cat-desc {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .cat-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* Loading */
+    #loading-screen {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: var(--bg);
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spinner { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ceviz içi SVG — reusable template -->
+  <svg style="display:none">
+    <symbol id="walnut-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Dış kabuk çizgisi -->
+      <ellipse cx="50" cy="52" rx="42" ry="38" fill="#C8956A" />
+      <ellipse cx="50" cy="50" rx="42" ry="38" fill="#D4A06A" />
+      <!-- Orta bölücü çizgi -->
+      <path d="M50 14 Q54 30 53 50 Q52 70 50 86" stroke="#8B5E3C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Sol lob kıvrımları -->
+      <path d="M20 35 Q28 28 35 33 Q30 40 25 38" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M15 50 Q24 42 32 47 Q26 55 18 52" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M18 64 Q28 58 36 63 Q30 71 20 68" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M22 78 Q31 73 38 77" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Sağ lob kıvrımları -->
+      <path d="M80 35 Q72 28 65 33 Q70 40 75 38" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M85 50 Q76 42 68 47 Q74 55 82 52" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M82 64 Q72 58 64 63 Q70 71 80 68" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M78 78 Q69 73 62 77" stroke="#8B5E3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Üst ışık yansıması -->
+      <ellipse cx="38" cy="28" rx="10" ry="5" fill="#E8C49A" opacity="0.5" transform="rotate(-20 38 28)"/>
+    </symbol>
+  </svg>
+
+  <!-- LOADING -->
+  <div id="loading-screen">
+    <svg class="cafe-logo" aria-label="PuzzleCafe logo"><use href="#walnut-icon"/></svg>
+    <div class="spinner"></div>
+    <p class="loading-text">PuzzleCafe</p>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login-screen" style="display:none">
+    <svg class="cafe-logo" aria-label="PuzzleCafe logo"><use href="#walnut-icon"/></svg>
+    <h1 class="app-name">PuzzleCafe</h1>
+    <p class="app-tagline" data-i18n="app_tagline"></p>
+
+    <div class="login-card">
+      <h2 data-i18n="login_welcome"></h2>
+      <p data-i18n="login_desc"></p>
+      <div class="divider"></div>
+
+      <button id="google-btn">
+        <svg width="22" height="22" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        <span data-i18n="login_google"></span>
+      </button>
+
+      <p class="login-note" data-i18n="login_note"></p>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app-screen">
+    <header class="app-header">
+      <div class="logo">
+        <svg class="header-logo" aria-hidden="true"><use href="#walnut-icon"/></svg>
+        PuzzleCafe
+      </div>
+      <div class="user-info">
+        <img id="user-photo" src="" alt="Profile" />
+        <button id="signout-btn" data-i18n="signout"></button>
+      </div>
+    </header>
+
+    <div class="welcome-section">
+      <h1 id="greeting-text"></h1>
+      <p data-i18n="greeting_desc"></p>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value" id="stat-solved">0</div>
+        <div class="stat-label" data-i18n="stat_solved"></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-score">0</div>
+        <div class="stat-label" data-i18n="stat_score"></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-rank">—</div>
+        <div class="stat-label" data-i18n="stat_rank"></div>
+      </div>
+    </div>
+
+    <p class="section-title" data-i18n="section_categories"></p>
+
+    <div class="categories">
+      <div class="category-card" data-category="general">
+        <div class="cat-icon">🌍</div>
+        <div class="cat-info">
+          <div class="cat-name" data-i18n="cat_general_name"></div>
+          <div class="cat-desc" data-i18n="cat_general_desc"></div>
+        </div>
+        <div class="cat-badge" data-i18n="play"></div>
+      </div>
+
+      <div class="category-card" style="opacity:.45; pointer-events:none;">
+        <div class="cat-icon">⚽</div>
+        <div class="cat-info">
+          <div class="cat-name" data-i18n="cat_sports_name"></div>
+          <div class="cat-desc" data-i18n="coming_soon"></div>
+        </div>
+      </div>
+
+      <div class="category-card" style="opacity:.45; pointer-events:none;">
+        <div class="cat-icon">🎬</div>
+        <div class="cat-info">
+          <div class="cat-name" data-i18n="cat_cinema_name"></div>
+          <div class="cat-desc" data-i18n="coming_soon"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       FIREBASE — kendi config'ini buraya yapıştır
+       Firebase Console → Project Settings → Your apps
+  ══════════════════════════════════════════════ -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
+      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // ⬇️  Firebase config — BU KISMI DEĞİŞTİR
+    const firebaseConfig = {
+      apiKey:            "BURAYA_API_KEY",
+      authDomain:        "BURAYA_AUTH_DOMAIN",
+      projectId:         "BURAYA_PROJECT_ID",
+      storageBucket:     "BURAYA_STORAGE_BUCKET",
+      messagingSenderId: "BURAYA_MESSAGING_SENDER_ID",
+      appId:             "BURAYA_APP_ID"
+    };
+
+    // ══════════════════════════════════════
+    // i18n — Dil sistemi
+    // ══════════════════════════════════════
+    let i18n = {};
+
+    async function loadLanguage() {
+      const syslang = navigator.language || 'en';
+      const lang = syslang.startsWith('tr') ? 'tr' : 'en';
+      document.documentElement.lang = lang;
+      try {
+        const res = await fetch(`lang/${lang}.json`);
+        i18n = await res.json();
+      } catch {
+        // Fallback: dil dosyası yüklenemezse boş devam et
+        i18n = {};
+      }
+      applyTranslations();
+    }
+
+    // Anahtar → metin, {name} gibi değişkenleri destekler
+    function t(key, vars = {}) {
+      let text = i18n[key] || key;
+      Object.entries(vars).forEach(([k, v]) => {
+        text = text.replace(`{${k}}`, v);
+      });
+      return text;
+    }
+
+    // data-i18n özelliği olan tüm elemanları günceller
+    function applyTranslations() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = t(el.dataset.i18n);
+      });
+    }
+
+    // ══════════════════════════════════════
+    // Firebase
+    // ══════════════════════════════════════
+    const app      = initializeApp(firebaseConfig);
+    const auth     = getAuth(app);
+    const db       = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    // ── Screens
+    const loadingScreen = document.getElementById('loading-screen');
+    const loginScreen   = document.getElementById('login-screen');
+    const appScreen     = document.getElementById('app-screen');
+
+    function show(screen) {
+      [loadingScreen, loginScreen, appScreen].forEach(s => s.style.display = 'none');
+      screen.style.display = 'flex';
+    }
+
+    // ── Başlangıç: önce dili yükle, sonra auth dinle
+    await loadLanguage();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        await loadUser(user);
+        show(appScreen);
+      } else {
+        show(loginScreen);
+      }
+    });
+
+    // ── Google sign in
+    document.getElementById('google-btn').addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (e) {
+        console.error('Login error:', e);
+        alert(t('error_login'));
+      }
+    });
+
+    // ── Sign out
+    document.getElementById('signout-btn').addEventListener('click', () => signOut(auth));
+
+    // ── Load / create user profile
+    async function loadUser(user) {
+      const ref  = doc(db, 'users', user.uid);
+      const snap = await getDoc(ref);
+
+      if (!snap.exists()) {
+        await setDoc(ref, {
+          displayName: user.displayName,
+          photoURL:    user.photoURL,
+          language:    navigator.language || 'en',
+          createdAt:   serverTimestamp()
+        });
+      }
+
+      // Selamlama
+      const firstName = user.displayName?.split(' ')[0] || '—';
+      document.getElementById('greeting-text').textContent = t('greeting', { name: firstName });
+      document.getElementById('user-photo').src = user.photoURL || '';
+
+      await loadStats(user.uid);
+    }
+
+    async function loadStats(uid) {
+      const ref  = doc(db, 'scores', 'general', 'entries', uid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        const d = snap.data();
+        document.getElementById('stat-solved').textContent = d.puzzlesSolved || 0;
+        document.getElementById('stat-score').textContent  = d.totalScore    || 0;
+      }
+    }
+
+    // ── Category click
+    document.querySelectorAll('.category-card[data-category]').forEach(card => {
+      card.addEventListener('click', () => {
+        const cat = card.dataset.category;
+        // TODO: reklam → bulmaca ekranına geç
+        alert(`"${cat}" — ${t('play')} (coming soon)`);
+      });
+    });
+  </script>
+</body>
+</html>
