@@ -1,0 +1,52 @@
+{
+  "app_name": "PuzzleCafe",
+  "app_tagline": "Zihninizi taze tutun, bulmacayla başlayın.",
+
+  "loading": "Yükleniyor...",
+
+  "login_welcome": "Hoş geldiniz!",
+  "login_desc": "Puanlarınızı takip etmek ve sıralamaya girmek için giriş yapın.",
+  "login_google": "Google ile giriş yap",
+  "login_note": "İlerlemeniz otomatik olarak kaydedilir.",
+
+  "greeting": "İyi günler, {name}!",
+  "greeting_desc": "Bir kategori seçin ve çözmeye başlayın.",
+
+  "stat_solved": "Çözülen",
+  "stat_score": "Toplam Puan",
+  "stat_rank": "Sıra",
+
+  "section_categories": "Kategoriler",
+  "coming_soon": "Çok yakında",
+  "play": "Oyna",
+
+  "cat_general_name": "Genel Kültür",
+  "cat_general_desc": "Coğrafya, tarih, bilim ve daha fazlası",
+  "cat_sports_name": "Spor",
+  "cat_sports_desc": "Çok yakında",
+  "cat_cinema_name": "Sinema & Müzik",
+  "cat_cinema_desc": "Çok yakında",
+
+  "signout": "Çıkış yap",
+
+  "puzzle_across": "Soldan Sağa",
+  "puzzle_down": "Yukarıdan Aşağı",
+  "puzzle_close": "Kapat",
+  "puzzle_solved": "Tebrikler! Bulmacayı çözdünüz!",
+  "puzzle_score": "Puanınız: {score}",
+  "puzzle_time": "Süre: {time}",
+
+  "ad_watch": "Devam etmek için reklam izleyin",
+  "ad_skip": "Reklamı geç ({sec}s)",
+  "ad_loading": "Reklam yükleniyor...",
+
+  "leaderboard_title": "Sıralama",
+  "leaderboard_empty": "Henüz skor yok. İlk siz olun!",
+  "leaderboard_rank": "Sıra",
+  "leaderboard_player": "Oyuncu",
+  "leaderboard_score": "Puan",
+
+  "error_login": "Giriş başarısız. Lütfen tekrar deneyin.",
+  "error_load": "Bulmaca yüklenemedi. Lütfen tekrar deneyin.",
+  "error_network": "İnternet bağlantınızı kontrol edin."
+}
