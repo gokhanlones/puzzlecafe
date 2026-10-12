@@ -479,25 +479,91 @@
     };
 
     // ══════════════════════════════════════
-    // i18n — Dil sistemi
+    // i18n — Dil sistemi (inline, fetch yok)
     // ══════════════════════════════════════
-    let i18n = {};
-
-    async function loadLanguage() {
-      const syslang = navigator.language || 'en';
-      const lang = syslang.startsWith('tr') ? 'tr' : 'en';
-      document.documentElement.lang = lang;
-      try {
-        const res = await fetch(`lang/${lang}.json`);
-        i18n = await res.json();
-      } catch {
-        // Fallback: dil dosyası yüklenemezse boş devam et
-        i18n = {};
+    const TRANSLATIONS = {
+      tr: {
+        app_tagline:      "Zihninizi taze tutun, bulmacayla başlayın.",
+        loading:          "Yükleniyor...",
+        login_welcome:    "Hoş geldiniz!",
+        login_desc:       "Puanlarınızı takip etmek ve sıralamaya girmek için giriş yapın.",
+        login_google:     "Google ile giriş yap",
+        login_note:       "İlerlemeniz otomatik olarak kaydedilir.",
+        greeting:         "İyi günler, {name}!",
+        greeting_desc:    "Bir kategori seçin ve çözmeye başlayın.",
+        stat_solved:      "Çözülen",
+        stat_score:       "Toplam Puan",
+        stat_rank:        "Sıra",
+        section_categories: "Kategoriler",
+        coming_soon:      "Çok yakında",
+        play:             "Oyna",
+        cat_general_name: "Genel Kültür",
+        cat_general_desc: "Coğrafya, tarih, bilim ve daha fazlası",
+        cat_sports_name:  "Spor",
+        cat_cinema_name:  "Sinema & Müzik",
+        signout:          "Çıkış yap",
+        puzzle_across:    "Soldan Sağa",
+        puzzle_down:      "Yukarıdan Aşağı",
+        puzzle_close:     "Kapat",
+        puzzle_solved:    "Tebrikler! Bulmacayı çözdünüz!",
+        puzzle_score:     "Puanınız: {score}",
+        puzzle_time:      "Süre: {time}",
+        ad_watch:         "Devam etmek için reklam izleyin",
+        leaderboard_title: "Sıralama",
+        leaderboard_empty: "Henüz skor yok. İlk siz olun!",
+        leaderboard_rank:  "Sıra",
+        leaderboard_player:"Oyuncu",
+        leaderboard_score: "Puan",
+        error_login:      "Giriş başarısız. Lütfen tekrar deneyin.",
+        error_load:       "Bulmaca yüklenemedi. Lütfen tekrar deneyin.",
+        error_network:    "İnternet bağlantınızı kontrol edin."
+      },
+      en: {
+        app_tagline:      "Keep your mind sharp, start with a puzzle.",
+        loading:          "Loading...",
+        login_welcome:    "Welcome!",
+        login_desc:       "Sign in to track your scores and join the leaderboard.",
+        login_google:     "Continue with Google",
+        login_note:       "Your progress is saved automatically.",
+        greeting:         "Good day, {name}!",
+        greeting_desc:    "Pick a category and start solving.",
+        stat_solved:      "Solved",
+        stat_score:       "Total Score",
+        stat_rank:        "Rank",
+        section_categories: "Categories",
+        coming_soon:      "Coming soon",
+        play:             "Play",
+        cat_general_name: "General Knowledge",
+        cat_general_desc: "Geography, history, science and more",
+        cat_sports_name:  "Sports",
+        cat_cinema_name:  "Cinema & Music",
+        signout:          "Sign out",
+        puzzle_across:    "Across",
+        puzzle_down:      "Down",
+        puzzle_close:     "Close",
+        puzzle_solved:    "Congratulations! Puzzle solved!",
+        puzzle_score:     "Your score: {score}",
+        puzzle_time:      "Time: {time}",
+        ad_watch:         "Watch an ad to continue",
+        leaderboard_title: "Leaderboard",
+        leaderboard_empty: "No scores yet. Be the first!",
+        leaderboard_rank:  "Rank",
+        leaderboard_player:"Player",
+        leaderboard_score: "Score",
+        error_login:      "Sign in failed. Please try again.",
+        error_load:       "Could not load puzzle. Please try again.",
+        error_network:    "Please check your internet connection."
       }
+    };
+
+    const userLang = (navigator.language || 'en').startsWith('tr') ? 'tr' : 'en';
+    document.documentElement.lang = userLang;
+    let i18n = TRANSLATIONS[userLang];
+
+    function loadLanguage() {
       applyTranslations();
     }
 
-    // Anahtar → metin, {name} gibi değişkenleri destekler
     function t(key, vars = {}) {
       let text = i18n[key] || key;
       Object.entries(vars).forEach(([k, v]) => {
@@ -506,7 +572,6 @@
       return text;
     }
 
-    // data-i18n özelliği olan tüm elemanları günceller
     function applyTranslations() {
       document.querySelectorAll('[data-i18n]').forEach(el => {
         el.textContent = t(el.dataset.i18n);
@@ -532,7 +597,7 @@
     }
 
     // ── Başlangıç: önce dili yükle, sonra auth dinle
-    await loadLanguage();
+    loadLanguage();
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
